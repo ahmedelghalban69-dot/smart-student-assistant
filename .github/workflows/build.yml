@@ -23,18 +23,18 @@ jobs:
           flutter-version: '3.22.0'
           channel: 'stable'
 
-      - name: Generate Platform Files (android/ios)
+      - name: Generate Platform Files
         run: flutter create . --org com.smartstudent --project-name smart_student_assistant
 
       - name: Install Dependencies
         run: flutter pub get
 
       - name: Build APK
-        run: |
-          flutter build apk --release \
-            --dart-define=SUPABASE_URL=${{ secrets.SUPABASE_URL }} \
-            --dart-define=SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }} \
-            --dart-define=AI_PROXY_URL=${{ secrets.AI_PROXY_URL }}
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          AI_PROXY_URL: ${{ secrets.AI_PROXY_URL }}
+        run: flutter build apk --release --dart-define=SUPABASE_URL="$SUPABASE_URL" --dart-define=SUPABASE_ANON_KEY="$SUPABASE_ANON_KEY" --dart-define=AI_PROXY_URL="$AI_PROXY_URL"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
