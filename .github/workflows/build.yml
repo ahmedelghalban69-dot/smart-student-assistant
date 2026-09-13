@@ -23,7 +23,10 @@ jobs:
           flutter-version: '3.22.0'
           channel: 'stable'
 
-      - name: Install dependencies
+      - name: Generate Platform Files (android/ios)
+        run: flutter create . --org com.smartstudent --project-name smart_student_assistant
+
+      - name: Install Dependencies
         run: flutter pub get
 
       - name: Build APK
